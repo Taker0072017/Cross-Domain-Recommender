@@ -1,0 +1,360 @@
+<!doctype html>
+<html lang="en">
+  <head>
+      <link href="https://fonts.googleapis.com/css?family=Roboto:300" rel="stylesheet">
+     <!-- Required meta tags -->
+   <meta charset="utf-8">
+   <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=yes">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://bootswatch.com/4/lux/bootstrap.min.css" >
+    <!--<link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.min.css" rel="stylesheet" id="bootstrap-css">-->
+    <title>Cross Domain Recommender</title>
+    <style>
+* {
+    box-sizing: border-box;
+}
+.all {
+ width: 60%;
+ margin-left: auto;
+ margin-right: auto;
+ display:none;
+}
+.row {
+  width: 100%;
+}
+.column {
+  padding-top: 0em;
+  padding-left: 6%;
+  padding-right: 6%;
+  float: left;
+  justify-content: center;
+  position: relative;
+  width: 33%;
+  margin-top: 1em;
+  margin-bottom: 1em;
+  margin-left: 0em;
+}
+
+.image {
+  display: block;
+  width: 100%;
+  height: auto;
+  opacity: 1;
+  transition: 0.2s;
+}
+
+.overlay {
+  position: absolute;
+  margin-left: 18.18%;
+  margin-right: 18.18%;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: black;
+  overflow: hidden;
+  width: auto;
+  height: 0;
+  opacity: 1;
+  transition: .5s ease;
+}
+
+.column:hover .overlay {
+  height: 20%;
+}
+
+.text {
+  color: white;
+  font-size: 1vi;
+  font-family: 'Roboto',sans-serif;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  text-align: center;
+}
+
+
+@media only screen and (max-width: 600px) and (orientation: portrait)
+{
+ .all {
+ width: 95%;
+ margin-left: auto;
+ margin-right: auto;
+ display:none; }
+
+ .text {
+  color: white;
+  font-size: 8px;
+  font-family: 'Roboto',sans-serif;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  text-align: center;
+}
+.column {
+  padding-top: 0em;
+  padding-left: 4%;
+  padding-right: 4%;
+  float: left;
+  justify-content: center;
+  position: relative;
+  width: 33%;
+  margin-top: 1em;
+  margin-bottom: 2em;
+  margin-left: 0em;
+}
+.overlay {
+  position: absolute;
+  margin-left: 12.12%;
+  margin-right: 12.12%;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: black;
+  overflow: hidden;
+  width: auto;
+  height: 0;
+  opacity: 1;
+  transition: .5s ease;
+}
+
+ }
+
+@media only screen and (max-width: 600px) and (orientation: landscape)
+{
+ .all {
+ width: 80%;
+ margin-left: auto;
+ margin-right: auto;
+ display:none; }
+
+ .text {
+  color: white;
+  font-size: 12px;
+  font-family: 'Roboto',sans-serif;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  text-align: center;
+}
+.column {
+  padding-top: 0em;
+  padding-left: 4%;
+  padding-right: 4%;
+  float: left;
+  justify-content: center;
+  position: relative;
+  width: 33%;
+  margin-top: 1em;
+  margin-bottom: 1em;
+  margin-left: 0em;
+}
+.overlay {
+  position: absolute;
+  margin-left: 12.12%;
+  margin-right: 12.12%;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: black;
+  overflow: hidden;
+  width: auto;
+  height: 0;
+  opacity: 1;
+  transition: .5s ease;
+}
+
+ }
+
+
+}
+</style>
+    <title>Cross Domain Recommender</title>
+   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script>
+
+function show(el){
+  console.log(el);
+  l=el.length;
+  console.log(l);
+  var r="https://www.reddit.com/r/";
+    for(i=0;i<l;i++)
+    {
+      var ii='link'+ i.toString();
+      var k = r+el[i];
+      document.getElementById(ii).href=k;
+      document.getElementById('tx'+i.toString()).innerHTML=el[i];
+      document.getElementById('img'+i.toString()).src="/static/"+el[i]+'.png';
+     // io.getElementsByClassName('text').innerHTML=el[i];
+
+    }
+    document.getElementById('all').style.display='block';
+  }
+
+
+
+$(function() {
+        $('a#process_input').bind('click', function() {
+          document.getElementById('info').style.display='none';
+          document.getElementById('info1').style.display='none';
+          document.getElementById('all').style.display='none';
+          document.getElementById('w').style.display='block';
+          document.getElementById('time').style.display='none';
+        $.getJSON('/background_process', {
+          proglang: document.getElementById('tt').value,
+        }, function(data) {
+
+          var ot=data.result;
+          document.getElementById('w').style.display='none';
+           if (ot=="*2*2")
+          {
+            console.log(ot);
+            alert("invalid or expired access id!");
+            return;
+          }
+          var tot=data.lol;
+          var lt=data.lt;
+          var rt=data.rt;
+          console.log(lt);
+          console.log(rt);
+          show(ot);
+          document.getElementById("time").innerHTML = " "+"Likes Collection time: "+lt+"sec"+"<br>"+" "+ "Prediction time: "+rt+"sec";
+          document.getElementById('time').style.display='block';
+          //console.log(tot);
+         localStorage.clear();
+         localStorage.setItem("st",JSON.stringify(tot));
+         var LikesString=localStorage.getItem("st");
+         document.getElementById('info').style.display='block';
+          document.getElementById('info1').style.display='block';
+
+        });
+        return false;
+        });
+      });
+
+
+
+
+
+
+
+
+
+
+
+</script>
+  </head>
+  <body>
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+  <a class="navbar-brand" href="https://rockcallahan.pythonanywhere.com">Cross Domain recommender</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarColor01">
+    <ul class="navbar-nav mr-auto">
+        <li class="nav-item">
+        <a class="nav-link" href="https://rockcallahan.pythonanywhere.com/main",style="font:Caviar dreams;">Manual</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="https://rockcallahan.pythonanywhere.com/privacy",style="font:Caviar dreams;">Privacy</a>
+      </li>
+    </ul>
+  </div>
+</nav>
+    <br>
+    <br>
+  <!-- <div id="nauth"><center> <form action="" method="post">
+       {{ form.hidden_tag() }}
+      <p>
+      {{form.access_id.label}} {{form.access_id(size=32)}} {{form.submit()}}
+      <br>
+      {% for error in form.access_id.errors %}
+            <span style="color: red;">[{{ error }}]</span>
+      {% endfor %}
+    </p>
+    </form>
+-->
+<form>
+<center>
+  <input class="form-control" id="tt" style="display:  ; border-color: black; text-align:center; width: 70%; height: 40px; margin: 0px; padding: 0px;" placeholder="ENTER ACCESS ID" type="text">
+  <br>
+<a href=# id=process_input><button class='btn btn-primary'>Recommend!</button></a>
+<br><br>
+<h3 id='w' style="display: none; padding-left:30px; font-family:caviar dreams;">Please Wait...</h3>
+<br>
+<div class="all" id='all'>
+<div class="row">
+  <div class="column" id='i0'>
+    <a target="_blank" id='link0'>
+    <img class="image" id='img0'>
+    <div class="overlay">
+      <div class="text" id='tx0'></div>
+    </div>
+    </a>
+  </div>
+  <div class="column" id='i1'>
+    <a target="_blank" id='link1'>
+    <img class="image" id='img1'>
+    <div class="overlay">
+      <div class="text" id='tx1'></div>
+    </div>
+    </a>
+  </div>
+  <div class="column" id='i2'>
+    <a target="_blank" id='link2'>
+    <img class="image" id='img2'>
+    <div class="overlay">
+      <div class="text" id='tx2'></div>
+    </div>
+    </a>
+  </div>
+</div>
+
+  <div class="row">
+  <div class="column" id='i3'>
+    <a target="_blank" id='link3'>
+    <img class="image" id='img3'>
+    <div class="overlay">
+      <div class="text" id='tx3'></div>
+    </div>
+    </a>
+  </div>
+  <div class="column" id='i4'>
+    <a target="_blank" id='link4'>
+    <img class="image" id='img4'>
+    <div class="overlay">
+      <div class="text" id='tx4'></div>
+    </div>
+    </a>
+  </div>
+  <div class="column" id='i5'>
+  <a target="_blank" id='link5'>
+    <img  class="image" id='img5'>
+    <div class="overlay">
+      <div class="text" id='tx5'></div>
+    </div>
+    </a>
+  </div>
+</div>
+</div>
+</center>
+<br>
+<p id='time' style="display:none; float:left;margin-left: 1%"></p>
+<br><br>
+<p><input type="button" class="btn btn-info" id='info' onclick="window.open(this.href='likes','_blank','popUpWindow',);return false;" value="Check Detailed Recommendations" style="display:none;float:right;margin-right: 1%" /></p>
+<p><input type="button" class="btn btn-info" id='info1' onclick="window.open(this.href='graph','_blank','popUpWindow',);return false;" value="Check Graphical data" style="width:250px;display:none;float:left;margin-bottom: 10px;margin-left: 1%;" /></p>
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+  </body>
+</html>

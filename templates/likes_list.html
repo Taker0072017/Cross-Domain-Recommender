@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+  <meta charset="utf-8">
+   <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=yes">
+</head>
+<title>FB Likes list</title>
+<body style="background: #aaaaaa;
+    background-image: linear-gradient(to top, #fddb92 0%, #d1fdff 100%);">
+
+<h1 style="text-align: center;font-family: 'Roboto', sans-serif;">Liked Pages in Facebook</h1>
+<hr style="color: red;">
+</br>
+<p id="demo"></p>
+
+<script>
+var LikesString, text, fLen, i;
+LikesString="Nothing to like";
+
+LikesString=(localStorage.getItem("st"));
+//console.log(JSON.parse(LikesString));
+LikesString=JSON.parse(LikesString);
+fLen = LikesString.length;
+text = "<ul>";
+for (i = 0; i < fLen; i++) {
+    text += "<li style=\" font-size: 1.5em;font-family: \'Roboto\', sans-serif; \">" + LikesString[i] + "</li>"+"</br>";
+}
+text += "</ul>";
+document.getElementById("demo").innerHTML = text;
+</script>
+
+</body>
+</html>
