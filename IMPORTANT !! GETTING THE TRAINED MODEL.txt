@@ -1,0 +1,14 @@
+STEPS TO GET THE TRAINED MODEL
+--------------------------------
+
+1. Download The file from the Link Below
+
+https://drive.google.com/open?id=124X5EyiRMS6Sv3U_S2XODB9mfC4vhkj_
+
+2. The file should have a name "trained_classifier.pickle" without quotes
+
+3. Make sure the file size is around 330 - 340 MB
+
+4. After downloading it , copy or move the file in the model_data folder
+
+
